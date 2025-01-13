@@ -98,7 +98,7 @@ print(response)
 
 ## Development Background
 
-mantiq is part of a long-term development plan by the tactful team focusing on advancements in Conversational AI and Knowledge Caching (CAG) techniques. This work is inspired by the seminal research presented in the paper "Dynamic Knowledge Caching for Conversational AI," which you can access [here](https://arxiv.org/pdf/2412.15605).
+mantiq is part of a long-term development plan by the [tactful team](https://tactful.ai/) focusing on advancements in Conversational AI and Knowledge Caching (CAG) techniques. This work is inspired by the seminal research presented in the paper "Dynamic Knowledge Caching for Conversational AI," which you can access [here](https://arxiv.org/pdf/2412.15605).
 
 The original repository that laid the foundation for CAG can be found [here](https://github.com/hhhuang/CAG).
 
