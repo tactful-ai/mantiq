@@ -62,6 +62,49 @@ class NaiiveCAG:
         self.write_kv_cache(kv, saving_directory)
         t2 = time.time()
         return kv, t2 - t1
+    
+    def prepare_kvcache_from_loader(self,loaded_data,saving_path, prompt_instruction: str, answer_instruction: str = None):
+        """
+        Prepare and save a key-value (KV) cache using the provided loaded data and instructions.
+
+        This function generates a KV cache based on the provided `loaded_data`, formats it using 
+        `prompt_instruction` and optional `answer_instruction`, and saves the result to a specified path.
+        
+        Args:
+            loaded_data (str): The dataset or context loaded from a source to be used in the KV cache.
+            saving_path (str): The directory path where the KV cache will be saved.
+            prompt_instruction (str): Instruction or context for the system to format the prompt.
+            answer_instruction (str, optional): Instruction for generating concise responses. Defaults to 
+            "Provide a concise and relevant answer."
+        Returns:
+            Tuple[DynamicCache, float]: 
+            - `DynamicCache`: The prepared KV cache object.
+            - `float`: The time taken to prepare the KV cache, in seconds.
+        """
+        self.prompt_instruction = prompt_instruction or "You are an assistant for giving short answers."
+        answer_instruction = answer_instruction or "Provide a concise and relevant answer."
+
+        # Format the system prompt
+        prompt = f"""
+        <|begin_of_text|>
+        <|start_header_id|>system<|end_header_id|>
+        {self.prompt_instruction}<|eot_id|>
+        <|start_header_id|>user<|end_header_id|>
+        Context:
+        ------------------------------------------------
+        {loaded_data}
+        ------------------------------------------------
+        
+        {answer_instruction}
+        """
+        t1 = time.time()
+        kv = self.preprocess_knowledge(prompt)
+        
+        saving_directory = saving_path + "/kv_cache.pt"
+        
+        self.write_kv_cache(kv, saving_directory)
+        t2 = time.time()
+        return kv, t2 - t1
 
     def preprocess_knowledge(self, prompt: str) -> DynamicCache:
         """
